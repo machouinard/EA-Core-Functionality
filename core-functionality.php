@@ -1,9 +1,12 @@
 <?php
 /**
  * Plugin Name: Core Functionality
- * Description: This contains all your site's core functionality so that it is theme independent. <strong>It should always be activated</strong>.
- * Version:     1.2.1
- * Author:      Bill Erickson & Jared Atchison
+ * Description: This contains all your site's core functionality so that it is theme independent.
+ * <strong>It should always be activated</strong>.
+ * Version:     1.0.0
+ * Author:      Mark Chouinard
+ *
+ * Forked from Bill Erickson and objectified https://github.com/billerickson/EA-Core-Functionality
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2, as published by the
@@ -16,13 +19,33 @@
  *
  * @package    CoreFunctionality
  * @since      1.0.0
- * @copyright  Copyright (c) 2014, Bill Erickson & Jared Atchison
+ * @copyright  Copyright (c) 2021 Mark Chouinard
  * @license    GPL-2.0+
  */
 
-// Plugin directory
-define( 'EA_DIR' , plugin_dir_path( __FILE__ ) );
+// Plugin constants
+define( 'CF_URL', plugin_dir_url( __FILE__ ) );
+define( 'CF_DIR', plugin_dir_path( __FILE__ ) );
+define( 'CF_BASENAME', plugin_basename( __FILE__ ) );
 
-require_once( EA_DIR . '/inc/general.php' );
-require_once( EA_DIR . '/inc/wordpress-cleanup.php' );
-require_once( EA_DIR . '/inc/kill-trackbacks.php' );
+// Require all class files in inc directory
+foreach ( glob( CF_DIR . 'inc/class-*.php' ) as $file ) {
+	require_once $file;
+}
+
+/**
+ * Wrapper for Pretty Printing
+ *
+ * @param        $obj
+ * @param string $label
+ * @param int    $width
+ *
+ * @return void
+ * @since 1.0.0
+ *
+ */
+function cfpp( $obj, $label = '', $width = 400 ) {
+
+	\CoreFunctionality\General::pp( $obj, $label, $width );
+
+}
